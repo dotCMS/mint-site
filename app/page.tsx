@@ -3,6 +3,7 @@ import Link from "next/link"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import VideoShowcase from "@/components/video-showcase"
+import { client } from "@/lib/dotcms"
 
 // Blog post data for the homepage
 const featuredBlogPosts = [
@@ -38,7 +39,17 @@ const featuredBlogPosts = [
   },
 ]
 
-export default function Home() {
+export default async function Home() {
+  // Test dotCMS client
+  try {
+    const pageData = await client.page.get('/', {
+      languageId: '1'
+    });
+    console.log('dotCMS page data:', pageData);
+  } catch (error) {
+    console.error('Error fetching dotCMS page:', error);
+  }
+
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Navigation */}

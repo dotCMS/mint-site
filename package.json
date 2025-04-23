@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dotcms/client": "^0.0.1-beta.20",
+    "@dotcms/react": "^0.0.1-beta.20",
+    "@dotcms/uve": "^0.0.1-beta.20",
     "@tailwindcss/typography": "^0.5.16",
     "autoprefixer": "^10.0.1",
     "clsx": "^2.0.0",
