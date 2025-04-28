@@ -3,12 +3,13 @@ import { getUVEState, sendMessageToUVE, createUVESubscription } from '@dotcms/uv
 import { DotCMSUVEAction, UVEEventType } from '@dotcms/uve/types';
 
 interface PageAsset {
-  // Add your page asset interface here based on your dotCMS content structure
   [key: string]: any;
 }
 
 export const usePageAsset = (currentPageAsset: PageAsset) => {
   const [pageAsset, setPageAsset] = useState<PageAsset | null>(currentPageAsset);
+
+  console.log('getUVEState', getUVEState())
 
   useEffect(() => {
     if (!getUVEState()) {
@@ -19,20 +20,16 @@ export const usePageAsset = (currentPageAsset: PageAsset) => {
     sendMessageToUVE({ action: DotCMSUVEAction.CLIENT_READY });
 
     // Subscribe to content changes
-    const subscription = createUVESubscription(
-      UVEEventType.CONTENT_CHANGES,
-      (payload: unknown) => {
-        if (payload && typeof payload === 'object') {
-          setPageAsset(payload as PageAsset);
-        }
-      }
-    );
+    const subscription = createUVESubscription(UVEEventType.CONTENT_CHANGES, (changes) => {
+      console.log('Content updated:', changes);
+      // Update your UI with the new content
+    });
 
     // Cleanup subscription on unmount
     return () => {
       subscription.unsubscribe();
     };
-  }, []); // Remove currentPageAsset from dependencies
+  }, [currentPageAsset]); // Remove currentPageAsset from dependencies
 
-  return pageAsset;
+  return pageAsset ?? currentPageAsset;
 }; 

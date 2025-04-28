@@ -1,3 +1,4 @@
+"use client"
 import { DotCMSLayoutBody } from '@dotcms/react/next';
 import { usePageAsset } from '@/hooks/usePageAsset';
 import { Hero } from './hero';
